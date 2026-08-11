@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MLSC Campus Lost &amp; Found Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  
+  <div id="banner" class="banner" role="alert">
+    <p>📌 Please verify ownership (student ID + description match) before handing over any item.</p>
+    <button id="bannerClose" class="banner-close" aria-label="Dismiss announcement">&times;</button>
+  </div>
+  <header class="site-nav">
+    <div class="nav-inner">
+      <a href="#top" class="brand">MLSC <span>Lost&amp;Found</span></a>
+      <nav id="navLinks" class="nav-links">
+        <a href="#board">Board</a>
+        <a href="#post">Post an Item</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+          <span class="theme-toggle-dot"></span>
+        </button>
+        <button id="hamburger" class="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <section id="top" class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">The corkboard by the student union, now online</p>
+      <h1 class="hero-title">Lost something on<br>campus? Pin it here.</h1>
+      <p class="hero-tagline">One board for everything MLSC students have lost, found, and are hoping to get back &mdash; no login, no fuss.</p>
+      <div class="hero-actions">
+        <button id="postBtn" class="btn btn-primary">+ Post an Item</button>
+        <a href="#board" class="btn btn-ghost">Browse the board ↓</a>
+      </div>
+      <div class="hero-stat">
+        <span id="listingCount" class="hero-stat-number">0</span>
+        <span class="hero-stat-label">items currently pinned</span>
+      </div>
+    </div>
+  </section>
+  <main id="board" class="board">
+    <div class="board-controls">
+      <div class="search-wrap">
+        <label for="searchInput" class="visually-hidden">Search listings</label>
+        <input type="text" id="searchInput" placeholder="Search by item name or location&hellip;" autocomplete="off" />
+      </div>
+      <div id="filterTags" class="filter-tags" role="group" aria-label="Filter by category">
+        <button class="filter-tag active" data-category="ALL">All</button>
+        <button class="filter-tag" data-category="ELECTRONICS">Electronics</button>
+        <button class="filter-tag" data-category="DOCUMENTS">Documents</button>
+        <button class="filter-tag" data-category="ACCESSORIES">Accessories</button>
+        <button class="filter-tag" data-category="OTHER">Other</button>
+      </div>
+    </div>
+
+    <div id="listingsGrid" class="listings-grid"></div>
+    <p id="emptyState" class="empty-state" hidden>Nothing pinned here yet. Try a different search or category.</p>
+  </main>
+
+  <section id="about" class="about">
+    <div class="about-inner">
+      <h2>How the board works</h2>
+      <p>Anyone can pin an item they've lost or found. Bookmark the ones you're tracking with the pin icon on each card &mdash; they'll stay saved on this device. Always meet in a public campus spot and confirm details before handing anything over.</p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>Built for the MLSC campus community. Be kind, return things.</p>
+  </footer>
+  <div id="modalOverlay" class="modal-overlay" hidden>
+    <div id="postModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle">Pin a new item</h2>
+        <button id="modalClose" class="modal-close" aria-label="Close form">&times;</button>
+      </div>
+
+      <div id="successMessage" class="success-message" hidden>
+        ✓ Posted! Your item is now live on the board.
+      </div>
+
+      <form id="postForm" novalidate>
+        <div class="form-row">
+          <label for="itemName">Item name</label>
+          <input type="text" id="itemName" name="itemName" />
+          <span class="field-error" id="err-itemName"></span>
+        </div>
+
+        <div class="form-row form-row-split">
+          <div>
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="">Select&hellip;</option>
+              <option value="ELECTRONICS">Electronics</option>
+              <option value="DOCUMENTS">Documents</option>
+              <option value="ACCESSORIES">Accessories</option>
+              <option value="OTHER">Other</option>
+            </select>
+            <span class="field-error" id="err-category"></span>
+          </div>
+          <div>
+            <label for="status">Status</label>
+            <select id="status" name="status">
+              <option value="">Select&hellip;</option>
+              <option value="LOST">Lost</option>
+              <option value="FOUND">Found</option>
+            </select>
+            <span class="field-error" id="err-status"></span>
+          </div>
+        </div>
+
+        <div class="form-row form-row-split">
+          <div>
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" placeholder="e.g. Library, 2nd floor" />
+            <span class="field-error" id="err-location"></span>
+          </div>
+          <div>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" />
+            <span class="field-error" id="err-date"></span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3" placeholder="Colour, brand, distinguishing marks&hellip;"></textarea>
+          <span class="field-error" id="err-description"></span>
+        </div>
+
+        <div class="form-row">
+          <label for="contactEmail">Contact email</label>
+          <input type="text" id="contactEmail" name="contactEmail" placeholder="you@mlsc.edu" />
+          <span class="field-error" id="err-contactEmail"></span>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="cancelBtn" class="btn btn-ghost">Cancel</button>
+          <button type="submit" class="btn btn-primary">Pin to board</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
